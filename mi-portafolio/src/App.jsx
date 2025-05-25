@@ -130,15 +130,40 @@ export default function App() {
           backgroundColor: "#A8E61C",
         }}
       >
-        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+        <section
+          style={{
+            minHeight: "100vh",
+            padding: "6rem 2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
           <Landing />
         </section>
 
-        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+        <section
+          style={{
+            minHeight: "100vh",
+            padding: "6rem 2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Proyectos />
         </section>
 
-        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+        <section
+          style={{
+            minHeight: "100vh",
+            padding: "6rem 2rem",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <Habilidades />
         </section>
 

@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   margin: 0;
@@ -7,7 +10,6 @@
 
 body {
   font-family: system-ui, sans-serif;
-  color: #111;
   background-color: #f9f9f9;
   line-height: 1.6;
 }
@@ -41,5 +43,38 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed; 
-  color: #111;
+  @apply text-white;
+}
+
+.landing-texto {
+  text-align: center;
+  padding: 3rem;
+}
+
+.landing-texto h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+}
+
+.landing-texto p {
+  font-size: 1.25rem;
+  color: #cfeaff;
+  margin: 0.5rem 0;
+}
+
+.landing-texto a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 2rem;
+  background: #3b82f6;
+  color: white;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.landing-texto a:hover {
+  background: #2563eb;
 }
