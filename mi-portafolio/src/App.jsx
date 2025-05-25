@@ -56,16 +56,16 @@ export default function App() {
 
   return (
     <>
-      <div
+      <img
         ref={boxRef}
+        src="/yct20hubfk061.png"
+        alt="Elemento animado"
         style={{
           position: "fixed",
           width: 100,
           height: 100,
-          background: "linear-gradient(135deg, #3b82f6, #60a5fa)",
-          borderRadius: 10,
           top: 100,
-          left: 100,
+          left: 40,
           zIndex: 9999,
           pointerEvents: "none",
         }}
