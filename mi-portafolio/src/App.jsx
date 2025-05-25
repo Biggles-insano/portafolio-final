@@ -22,6 +22,7 @@ export default function App() {
       flipCtx && flipCtx.revert();
 
       flipCtx = gsap.context(() => {
+        const initialState = Flip.getState(initialMarkerRef.current);
         const secondState = Flip.getState(secondMarkerRef.current);
         const thirdState = Flip.getState(thirdMarkerRef.current);
         const flipConfig = {
@@ -35,14 +36,12 @@ export default function App() {
             start: "top top",
             end: "bottom bottom",
             scrub: 1,
-            // markers: true,
           },
         });
 
-        tl.add(Flip.fit(boxRef.current, secondState, flipConfig)).add(
-          Flip.fit(boxRef.current, thirdState, flipConfig),
-          "+=0.5"
-        );
+        tl.add(Flip.fit(boxRef.current, initialState, { duration: 0 }))
+          .add(Flip.fit(boxRef.current, secondState, flipConfig))
+          .add(Flip.fit(boxRef.current, thirdState, flipConfig), "+=0.5");
       });
     };
 
@@ -57,7 +56,6 @@ export default function App() {
 
   return (
     <>
-      {/* Cuadro animado azul */}
       <div
         ref={boxRef}
         style={{
@@ -73,7 +71,6 @@ export default function App() {
         }}
       />
 
-      {/* Cubos marcadores de destino */}
       <div
         ref={initialMarkerRef}
         style={{
@@ -121,20 +118,32 @@ export default function App() {
         }}
       />
 
-      {/* Secciones normales */}
-      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#fff" }}>
-        <Landing />
-      </section>
+      <div
+        style={{
+          minHeight: "100vh",
+          backgroundImage: "url('/fondo.png')",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% auto",
+          backgroundPosition: "top center",
+          backgroundAttachment: "scroll",
+          scrollBehavior: "smooth",
+          backgroundColor: "#A8E61C",
+        }}
+      >
+        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+          <Landing />
+        </section>
 
-      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#f3f4f6" }}>
-        <Proyectos />
-      </section>
+        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+          <Proyectos />
+        </section>
 
-      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#ffffff" }}>
-        <Habilidades />
-      </section>
+        <section style={{ minHeight: "100vh", padding: "6rem 2rem" }}>
+          <Habilidades />
+        </section>
 
-      <div style={{ height: "20vh" }} />
+        <div style={{ height: "20vh" }} />
+      </div>
     </>
   );
 }

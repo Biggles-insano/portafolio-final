@@ -14,7 +14,7 @@ const Proyectos = () => {
       tecnologias: ["Vue.js", "Laravel", "MySQL"],
       enlace: "https://github.com/usuario/proyecto2",
     },
-    // Agrega más proyectos aquí
+
   ];
 
   return (

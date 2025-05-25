@@ -7,7 +7,7 @@ const Habilidades = () => {
     { nombre: "JavaScript", nivel: 80 },
     { nombre: "React", nivel: 75 },
     { nombre: "Node.js", nivel: 70 },
-    // Agrega más habilidades aquí
+
   ];
 
   return (
