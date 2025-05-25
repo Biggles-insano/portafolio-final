@@ -25,7 +25,7 @@ export default function App() {
         const secondState = Flip.getState(secondMarkerRef.current);
         const thirdState = Flip.getState(thirdMarkerRef.current);
         const flipConfig = {
-          ease: "power1.inOut", // animación más suave
+          ease: "power1.inOut",
           duration: 1,
         };
 
@@ -57,7 +57,7 @@ export default function App() {
 
   return (
     <>
-      {/* Cubos para animación: posicionados fijos */}
+      {/* Cuadro animado azul */}
       <div
         ref={boxRef}
         style={{
@@ -73,7 +73,7 @@ export default function App() {
         }}
       />
 
-      {/* Marcadores visibles para Flip */}
+      {/* Cubos marcadores de destino */}
       <div
         ref={initialMarkerRef}
         style={{
@@ -82,10 +82,11 @@ export default function App() {
           height: 120,
           top: 100,
           left: 100,
-          border: "2px dashed #999",
+          border: "none",
           borderRadius: 10,
-          pointerEvents: "none",
           zIndex: 9998,
+          pointerEvents: "none",
+          opacity: 0,
         }}
       />
       <div
@@ -94,12 +95,14 @@ export default function App() {
           position: "fixed",
           width: 120,
           height: 120,
-          top: window.innerHeight / 2,
+          top: "50%",
           left: 100,
-          border: "2px dashed #999",
+          transform: "translateY(-50%)",
+          border: "none",
           borderRadius: 10,
-          pointerEvents: "none",
           zIndex: 9998,
+          pointerEvents: "none",
+          opacity: 0,
         }}
       />
       <div
@@ -110,21 +113,24 @@ export default function App() {
           height: 120,
           bottom: 100,
           left: 100,
-          border: "2px dashed #999",
+          border: "none",
           borderRadius: 10,
-          pointerEvents: "none",
           zIndex: 9998,
+          pointerEvents: "none",
+          opacity: 0,
         }}
       />
 
-      {/* Secciones normales con contenido real */}
-      <section style={{ minHeight: "100vh", padding: "4rem" }}>
+      {/* Secciones normales */}
+      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#fff" }}>
         <Landing />
       </section>
-      <section style={{ minHeight: "100vh", padding: "4rem", backgroundColor: "#f3f4f6" }}>
+
+      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#f3f4f6" }}>
         <Proyectos />
       </section>
-      <section style={{ minHeight: "100vh", padding: "4rem", backgroundColor: "#fff" }}>
+
+      <section style={{ minHeight: "100vh", padding: "6rem 2rem", backgroundColor: "#ffffff" }}>
         <Habilidades />
       </section>
 
