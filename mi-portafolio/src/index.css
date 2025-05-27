@@ -34,7 +34,6 @@ body::before {
   z-index: 1;
 }
 
-
 body {
   font-family: system-ui, sans-serif;
   margin: 0;
@@ -77,4 +76,43 @@ body {
 
 .landing-texto a:hover {
   background: #2563eb;
+}
+
+/* Corregido: Se desactiva el padding-top para evitar contenedor enorme */
+.image-container::before {
+  content: none;
+}
+
+/* Limita el tamaño y centra el contenedor */
+.image-container {
+  position: relative;
+  max-width: 400px;
+  max-height: 600px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Las imágenes fluyen normalmente y se organizan en grid */
+.images {
+  position: relative; /* Cambiado de absolute */
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-areas:
+    "img-1 img-1 img-1"
+    "img-1 img-1 img-1"
+    "img-1 img-1 img-1"
+    "img-2 img-3 img-4";
+}
+
+/* Estilos para las tarjetas de proyecto */
+.product {
+  border: 1px dashed #999;
+  background-color: #f0f0f0;
+  transition: box-shadow 0.3s ease;
+}
+
+.product:hover {
+  box-shadow: 0 0 10px #3490dc;
 }
