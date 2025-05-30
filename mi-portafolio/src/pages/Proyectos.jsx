@@ -84,7 +84,7 @@ const Proyectos = () => {
   }, [activeId]);
 
   return (
-    <section className="proyectos-section py-16 bg-gray-100">
+    <section id="Proyectos" className="proyectos-section py-16 bg-gray-100">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl font-bold text-center mb-12">Mis Proyectos</h2>
         <div className="image-container relative max-w-md mx-auto">
