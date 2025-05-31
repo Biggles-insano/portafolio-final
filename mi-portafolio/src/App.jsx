@@ -4,8 +4,8 @@ import { Flip } from "gsap/Flip";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import Landing from "./pages/Landing";
-import Proyectos from "./pages/Proyectos";
 import Habilidades from "./pages/Habilidades";
+import Proyectos from "./pages/Proyectos";
 
 gsap.registerPlugin(Flip, ScrollTrigger);
 
@@ -152,7 +152,7 @@ export default function App() {
             alignItems: "center",
           }}
         >
-          <Proyectos />
+          <Habilidades />
         </section>
 
         <section
@@ -164,7 +164,7 @@ export default function App() {
             alignItems: "center",
           }}
         >
-          <Habilidades />
+          <Proyectos />
         </section>
 
         <div style={{ height: "20vh" }} />

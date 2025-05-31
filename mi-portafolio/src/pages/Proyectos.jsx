@@ -1,133 +1,180 @@
-import React, { useState, useEffect } from "react";
-import gsap from "gsap";
-import { Flip } from "gsap/Flip";
+import React, { useEffect, useRef } from "react"
+import gsap from "gsap"
+import Draggable from "gsap/Draggable"
+import "./Proyectos.css"
 
-gsap.registerPlugin(Flip);
+gsap.registerPlugin(Draggable)
 
-const Proyectos = () => {
-  const [proyectos, setProyectos] = useState([
-    {
-      id: 1,
-      titulo: "Proyecto 1",
-      descripcion: "Descripción breve del proyecto.",
-      tecnologias: ["React", "Node.js", "MongoDB"],
-      enlace: "https://github.com/usuario/proyecto1",
-      imagen: "https://assets.codepen.io/16327/ui-flair-1.png",
-      dataGrid: "img-1",
-    },
-    {
-      id: 2,
-      titulo: "Proyecto 2",
-      descripcion: "Descripción breve del proyecto.",
-      tecnologias: ["Vue.js", "Laravel", "MySQL"],
-      enlace: "https://github.com/usuario/proyecto2",
-      imagen: "https://assets.codepen.io/16327/ui-flair-2.png",
-      dataGrid: "img-2",
-    },
-    {
-      id: 3,
-      titulo: "Proyecto 3",
-      descripcion: "Otro proyecto interesante.",
-      tecnologias: ["JavaScript", "CSS"],
-      enlace: "https://github.com/usuario/proyecto3",
-      imagen: "https://assets.codepen.io/16327/ui-flair-3.png",
-      dataGrid: "img-3",
-    },
-    {
-      id: 4,
-      titulo: "Proyecto 4",
-      descripcion: "Más cosas geniales.",
-      tecnologias: ["HTML", "CSS"],
-      enlace: "https://github.com/usuario/proyecto4",
-      imagen: "https://assets.codepen.io/16327/ui-flair-4.png",
-      dataGrid: "img-4",
-    },
-  ]);
+const COVERS = [
+  "https://i.scdn.co/image/ab67616d00001e020ecc8c4fd215d9eb83cbfdb3",
+  "https://i.scdn.co/image/ab67616d00001e02d9194aa18fa4c9362b47464f",
+  "https://i.scdn.co/image/ab67616d00001e02a7ea08ab3914c5fb2084a8ac",
+  "https://i.scdn.co/image/ab67616d00001e0213ca80c3035333e5a6fcea59",
+  "https://i.scdn.co/image/ab67616d00001e02df04e6071763615d44643725",
+  "https://i.scdn.co/image/ab67616d00001e0239c7302c04f8d06f60e14403",
+  "https://i.scdn.co/image/ab67616d00001e021c0bcf8b536295438d26c70d",
+  "https://i.scdn.co/image/ab67616d00001e029bbd79106e510d13a9a5ec33",
+  "https://i.scdn.co/image/ab67616d00001e021d97ca7376f835055f828139",
+  "https://www.udiscovermusic.com/wp-content/uploads/2015/10/Kanye-West-Yeezus.jpg",
+]
 
-  const [activeId, setActiveId] = useState(1);
+export default function Proyectos() {
+  const boxContainerRef = useRef(null)
+  const dragProxyRef = useRef(null)
+  const currentIndex = useRef(0)
+  const startIndex = useRef(0)
+  const startX = useRef(0)
+  const scrollCooldown = useRef(false)
+  const touchStartY = useRef(0)
+  const BOXES = useRef([])
 
   useEffect(() => {
-    const products = document.querySelectorAll(".product");
-
-    products.forEach((el) => {
-      el.addEventListener("click", () => changeGrid(el));
-    });
-
-    function changeGrid(el) {
-      const clickedId = parseInt(el.getAttribute("data-id"));
-      if (clickedId === activeId) return;
-
-      const state = Flip.getState(products);
-
-      setProyectos((prev) =>
-        prev.map((p) => {
-          if (p.id === clickedId) return { ...p, dataGrid: "img-1" };
-          if (p.id === activeId) return { ...p, dataGrid: el.getAttribute("data-grid") };
-          return p;
+    BOXES.current = gsap.utils.toArray(".box")
+  
+    gsap.set(".box", {
+      display: "block",
+      yPercent: -50,
+      xPercent: -50,
+    })
+  
+    BOXES.current.forEach((box, index) => {
+      gsap.set(box, {
+        x: index * 300,
+        rotateY: 0,
+        opacity: 1,
+        scale: 1,
+        z: 0,
+        zIndex: 1,
+      })
+    })
+  
+    const goToPosition = (targetIndex) => {
+      const maxIndex = BOXES.current.length - 1
+      currentIndex.current = Math.max(0, Math.min(maxIndex, targetIndex))
+      const targetX = -currentIndex.current * 300
+  
+      BOXES.current.forEach((box, index) => {
+        const distance = Math.abs(index - currentIndex.current)
+        const isActive = index === currentIndex.current
+  
+        gsap.to(box, {
+          x: targetX + index * 300,
+          duration: 0.8,
+          ease: "power2.inOut",
         })
-      );
-
-      setActiveId(clickedId);
-
-      Flip.from(state, {
-        duration: 0.3,
-        absolute: true,
-        ease: "power1.inOut",
-      });
+  
+        gsap.to(box, {
+          scale: isActive ? 1.2 : Math.max(0.7, 1 - distance * 0.1),
+          rotateY: isActive ? 0 : index < currentIndex.current ? -30 : 30,
+          opacity: Math.max(0.3, 1 - distance * 0.2),
+          z: isActive ? 50 : Math.max(-50, -distance * 20),
+          zIndex: isActive ? BOXES.current.length : Math.max(1, BOXES.current.length - distance),
+          duration: 0.8,
+          ease: "power2.inOut",
+        })
+      })
     }
-
-    return () => {
-      products.forEach((el) => {
-        el.removeEventListener("click", () => changeGrid(el));
-      });
-    };
-  }, [activeId]);
+  
+    const NEXT = () => {
+      if (currentIndex.current < BOXES.current.length - 1) goToPosition(currentIndex.current + 1)
+    }
+  
+    const PREV = () => {
+      if (currentIndex.current > 0) goToPosition(currentIndex.current - 1)
+    }
+  
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "ArrowLeft" || e.code === "KeyA") PREV()
+      if (e.code === "ArrowRight" || e.code === "KeyD") NEXT()
+    })
+  
+    boxContainerRef.current.addEventListener("click", (e) => {
+      const box = e.target.closest(".box")
+      if (box) {
+        const targetIndex = BOXES.current.indexOf(box)
+        goToPosition(targetIndex)
+      }
+    })
+  
+    // ✅ SCROLL limitado solo al carrusel
+    boxContainerRef.current.addEventListener("wheel", (e) => {
+      e.preventDefault()
+      if (scrollCooldown.current) return
+      scrollCooldown.current = true
+  
+      if (e.deltaY > 0) NEXT()
+      else PREV()
+  
+      setTimeout(() => (scrollCooldown.current = false), 600)
+    }, { passive: false })
+  
+    Draggable.create(dragProxyRef.current, {
+      type: "x",
+      trigger: boxContainerRef.current,
+      onPress() {
+        startIndex.current = currentIndex.current
+        startX.current = this.x
+      },
+      onDrag() {
+        const dragDistance = this.x - startX.current
+        const sensitivity = 100
+        const indexChange = Math.round(-dragDistance / sensitivity)
+        const newIndex = Math.max(0, Math.min(BOXES.current.length - 1, startIndex.current + indexChange))
+  
+        if (newIndex !== currentIndex.current) {
+          goToPosition(newIndex)
+          startIndex.current = newIndex
+          startX.current = this.x
+        }
+      },
+    })
+  
+    document.addEventListener("touchstart", (e) => {
+      touchStartY.current = e.touches[0].clientY
+    })
+  
+    document.addEventListener("touchmove", (e) => {
+      e.preventDefault()
+    }, { passive: false })
+  
+    document.addEventListener("touchend", (e) => {
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY
+      if (Math.abs(deltaY) > 30) deltaY > 0 ? NEXT() : PREV()
+    })
+  
+    gsap.set("button", { z: 200 })
+    goToPosition(0)
+  }, [])
 
   return (
-    <section id="Proyectos" className="proyectos-section py-16 bg-gray-100">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-12">Mis Proyectos</h2>
-        <div className="image-container relative max-w-md mx-auto">
-          <div className="images grid gap-2"
-            style={{
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gridTemplateRows: "repeat(4, 1fr)",
-              gridTemplateAreas: `
-                "img-1 img-1 img-1"
-                "img-1 img-1 img-1"
-                "img-1 img-1 img-1"
-                "img-2 img-3 img-4"
-              `,
-            }}
-          >
-            {proyectos.map((proyecto) => (
-              <div
-                key={proyecto.id}
-                className="product bg-gray-200 p-4 rounded shadow cursor-pointer"
-                data-grid={proyecto.dataGrid}
-                data-id={proyecto.id}
-                style={{
-                  gridArea: proyecto.dataGrid,
-                  backgroundImage: `url(${proyecto.imagen})`,
-                  backgroundSize: "75%",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-              >
-                <h3 className="font-semibold text-lg">{proyecto.titulo}</h3>
-                <p className="text-sm mt-2">{proyecto.descripcion}</p>
-                <p className="text-xs mt-1">Tecnologías: {proyecto.tecnologias.join(", ")}</p>
-                <a href={proyecto.enlace} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs mt-2 inline-block">
-                  Ver Repositorio
-                </a>
-              </div>
-            ))}
-          </div>
+    <section className="boxes" ref={boxContainerRef}>
+      {COVERS.map((src, i) => (
+        <div className="box" key={i} style={{ "--src": `url(${src})` }}>
+          <span>{i + 1}</span>
+          <img src={src} alt={`cover-${i}`} />
         </div>
+      ))}
+
+      <div className="controls">
+        <button className="next">
+          <span>Previous album</span>
+          <svg viewBox="0 0 448 512" width="100" title="Previous Album">
+            <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+          </svg>
+        </button>
+        <button className="prev">
+          <span>Next album</span>
+          <svg viewBox="0 0 448 512" width="100" title="Next Album">
+            <path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z" />
+          </svg>
+        </button>
       </div>
+
+      <svg className="scroll-icon" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M20 6H23L19 2L15 6H18V18H15L19 22L23 18H20V6M9 3.09C11.83 3.57 14 6.04 14 9H9V3.09M14 11V15C14 18.3 11.3 21 8 21S2 18.3 2 15V11H14M7 9H2C2 6.04 4.17 3.57 7 3.09V9Z" />
+      </svg>
+
+      <div className="drag-proxy" ref={dragProxyRef}></div>
     </section>
-  );
-};
-
-export default Proyectos;
-
+  )
+}
