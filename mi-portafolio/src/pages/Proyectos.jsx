@@ -98,15 +98,12 @@ export default function Proyectos() {
   
     // ✅ SCROLL limitado solo al carrusel
     boxContainerRef.current.addEventListener("wheel", (e) => {
-      e.preventDefault()
       if (scrollCooldown.current) return
-      scrollCooldown.current = true
-  
       if (e.deltaY > 0) NEXT()
       else PREV()
-  
+      scrollCooldown.current = true
       setTimeout(() => (scrollCooldown.current = false), 600)
-    }, { passive: false })
+    })
   
     Draggable.create(dragProxyRef.current, {
       type: "x",
@@ -146,12 +143,48 @@ export default function Proyectos() {
     goToPosition(0)
   }, [])
 
+  const proyectos = [
+    {
+      titulo: "API REST",
+      descripcion: "Una API para gestionar productos y pedidos.",
+      tecnologias: ["Node.js", "Express", "PostgreSQL"],
+      imagen: "/apiuno.png",
+      enlace: "https://github.com/Biggles-insano/api",
+    },
+    {
+      titulo: "By Victor Mejía",
+      descripcion: "Sitio personal con portafolio de diseño.",
+      tecnologias: ["React", "CSS Modules"],
+      imagen: "/byvictormejia.png",
+      enlace: "https://github.com/Biggles-insano/byvictormejia",
+    },
+    {
+      titulo: "Cronómetro",
+      descripcion: "Un cronómetro simple en React.",
+      tecnologias: ["React", "Hooks"],
+      imagen: "/useref.png",
+      enlace: "https://github.com/Biggles-insano/cronometro",
+    },
+    {
+      titulo: "Búsqueda de personajes",
+      descripcion: "Ejemplo de uso del hook useMemo.",
+      tecnologias: ["React"],
+      imagen: "/usememo.png",
+      enlace: "https://github.com/Biggles-insano/React-Hock-useMemo-",
+    },
+  ]
+
   return (
     <section className="boxes" ref={boxContainerRef}>
-      {COVERS.map((src, i) => (
-        <div className="box" key={i} style={{ "--src": `url(${src})` }}>
-          <span>{i + 1}</span>
-          <img src={src} alt={`cover-${i}`} />
+      {proyectos.map((proyecto, i) => (
+        <div className="box" key={i} style={{ "--src": `url(${proyecto.imagen})` }}>
+          <img src={proyecto.imagen} alt={proyecto.titulo} />
+          <div className="info">
+            <h3>{proyecto.titulo}</h3>
+            <p>{proyecto.descripcion}</p>
+            <p className="tech">{proyecto.tecnologias.join(" • ")}</p>
+            <a href={proyecto.enlace} target="_blank" rel="noreferrer">Ver proyecto</a>
+          </div>
         </div>
       ))}
 
