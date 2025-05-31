@@ -175,7 +175,7 @@ export default function Proyectos() {
   ]
 
   return (
-    <section className="boxes" ref={boxContainerRef}>
+    <section className="boxes" id="proyectos" ref={boxContainerRef}>
       {proyectos.map((proyecto, i) => (
         <div className="box" key={i} style={{ "--src": `url(${proyecto.imagen})` }}>
           <img src={proyecto.imagen} alt={proyecto.titulo} />
