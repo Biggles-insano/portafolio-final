@@ -1,5 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 
+// Importa el efecto scramble-text si está en un archivo externo, por ejemplo:
+// import { setupScrambleTextEffect } from '../utils/scrambleText';
+
 const Habilidades = () => {
   const svgRef = useRef(null);
   const [drift, setDrift] = useState(0);
@@ -12,6 +15,56 @@ const Habilidades = () => {
     { nombre: "React", nivel: 75, dimension: "UI Components" },
     { nombre: "Node.js", nivel: 70, dimension: "Back-end Power" },
   ];
+  // --- Scramble-text effect ---
+  useEffect(() => {
+    // Si tienes un hook o función global, úsala aquí.
+    // Si el script scramble-text está en window, colócalo aquí:
+    // Por ejemplo, si tienes:
+    // window.setupScrambleTextEffect?.();
+    // O si tienes una función importada:
+    // setupScrambleTextEffect();
+
+    // Si no hay función, aquí va un efecto básico:
+    // (esto solo activa el scramble en hover para .scramble-text)
+    // Puedes reemplazar esto con tu propia función si la tienes.
+    function scramble(element, originalText, chars = "!<>-_\\/[]{}—=+*^?#________") {
+      let frame = 0;
+      let scrambleInterval;
+      const scrambleText = () => {
+        const text = originalText;
+        let output = '';
+        for (let i = 0; i < text.length; i++) {
+          if (frame < 10) {
+            output += chars[Math.floor(Math.random() * chars.length)];
+          } else {
+            output += text[i];
+          }
+        }
+        element.textContent = output;
+        frame++;
+        if (frame < 10) {
+          scrambleInterval = setTimeout(scrambleText, 30);
+        } else {
+          element.textContent = text;
+        }
+      };
+      scrambleText();
+      return () => clearTimeout(scrambleInterval);
+    }
+
+    const nodes = document.querySelectorAll('.scramble-text');
+    nodes.forEach(node => {
+      const original = node.textContent;
+      node.onmouseenter = () => scramble(node, original);
+      node.onmouseleave = () => { node.textContent = original; };
+    });
+    return () => {
+      nodes.forEach(node => {
+        node.onmouseenter = null;
+        node.onmouseleave = null;
+      });
+    };
+  }, []);
 
   // Configuración de las ondas
   const width = 100;
@@ -103,6 +156,14 @@ const Habilidades = () => {
   return (
     <div className="habilidades-section" style={{ zIndex: 999, position: "relative" }}>
       <style>{`
+        .scramble-text {
+          display: inline-block;
+          cursor: pointer;
+          transition: color 0.2s;
+        }
+        .scramble-text:hover {
+          color: #60a5fa;
+        }
         .habilidades-section {
           padding: 4rem 0;
           background: transparent;
@@ -224,7 +285,7 @@ const Habilidades = () => {
 
         .habilidad-item {
           display: grid;
-          grid-template-columns: 1fr auto 2fr auto;
+          grid-template-columns: 1fr auto 3fr auto;
           align-items: center;
           gap: 1rem;
           padding: 1rem;
@@ -428,13 +489,15 @@ const Habilidades = () => {
       `}</style>
 
       <div className="container">
-        <h2>Dimensiones Tecnológicas</h2>
+        <h2><span className="scramble-text">Dimensiones Tecnológicas</span></h2>
         <p className="subtitle">
-          "En el tejido del espacio-tiempo digital, cada habilidad vibra en su propia frecuencia cuántica"
+          <span className="scramble-text">
+            "En el tejido del espacio-tiempo digital, cada habilidad vibra en su propia frecuencia cuántica"
+          </span>
         </p>
 
         <div className="cuerdas-container">
-          <div className="cuerdas-title">Vibraciones Cuánticas</div>
+          <div className="cuerdas-title"><span className="scramble-text">Vibraciones Cuánticas</span></div>
           
           <div className="wavelines-container">
             <svg ref={svgRef} className="wavelines" viewBox="0 0 100 50" style={{ background: 'transparent' }}>
@@ -461,8 +524,8 @@ const Habilidades = () => {
         <div className="habilidades-lista">
           {habilidades.map((habilidad, index) => (
             <div key={index} className="habilidad-item">
-              <span className="habilidad-nombre">{habilidad.nombre}</span>
-              <span className="dimension-label">Dim. {habilidad.dimension}</span>
+              <span className="habilidad-nombre scramble-text">{habilidad.nombre}</span>
+              <span className="dimension-label scramble-text">Dim. {habilidad.dimension}</span>
               <div className="orbita-container">
                 <div className="planeta" style={{ animationDuration: `${100 - habilidad.nivel + 5}s` }}></div>
               </div>
@@ -500,12 +563,33 @@ const Habilidades = () => {
         </div>
 
         <div className="teoria-info">
-          <h3>Soy Samuel Mejía</h3>
-          <p>
-  Soy Samuel Mejía<br />
-  Transformo ideas en interfaces vivas, donde cada clic cuenta una historia..<br />
-No construyo páginas… construyo experiencias.
-</p>
+          <h3><span className="scramble-text">Soy Samuel Mejía</span></h3>
+          <p className="scramble-text" style={{ whiteSpace: 'pre-line' }}>
+            Soy Samuel Mejía
+            {'\n'}Transformo ideas en interfaces vivas, donde cada clic cuenta una historia..
+            {'\n'}No construyo páginas… construyo experiencias.
+          </p>
+        </div>
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <a
+            href="/cv samuel mejia.pdf"
+            download
+            style={{
+              display: 'inline-block',
+              padding: '0.75rem 1.5rem',
+              backgroundColor: '#60a5fa',
+              color: '#ffffff',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              fontWeight: '500',
+              boxShadow: '0 4px 15px rgba(96, 165, 250, 0.4)',
+              transition: 'transform 0.2s ease',
+            }}
+            onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+          >
+            Descargar CV
+          </a>
         </div>
       </div>
     </div>
