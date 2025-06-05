@@ -1,4 +1,3 @@
-// Landing.jsx
 import React, { useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'

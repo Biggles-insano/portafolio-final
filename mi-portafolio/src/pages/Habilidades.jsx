@@ -18,7 +18,7 @@ const Habilidades = () => {
       <style>{`
         .habilidades-section {
           padding: 4rem 0;
-          background-color: white;
+          background-color: transparent;
         }
 
         .container {
