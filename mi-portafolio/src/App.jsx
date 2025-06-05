@@ -121,13 +121,9 @@ export default function App() {
       <div
         style={{
           minHeight: "100vh",
-          backgroundImage: "url('/fondo.png')",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% auto",
-          backgroundPosition: "top center",
-          backgroundAttachment: "scroll",
           scrollBehavior: "smooth",
-          backgroundColor: "#000000",
+          backgroundColor: "transparent",
+          backgroundImage: "none",
         }}
       >
         <section
