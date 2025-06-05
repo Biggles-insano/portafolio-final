@@ -6,11 +6,11 @@ const Habilidades = () => {
   const [amplitude, setAmplitude] = useState(0);
   
   const habilidades = [
-    { nombre: "HTML", nivel: 90, dimension: "Espacial" },
-    { nombre: "CSS", nivel: 85, dimension: "Temporal" },
-    { nombre: "JavaScript", nivel: 80, dimension: "Cuántica" },
-    { nombre: "React", nivel: 75, dimension: "Relativista" },
-    { nombre: "Node.js", nivel: 70, dimension: "Energética" },
+    { nombre: "HTML", nivel: 90, dimension: "Front-End Core" },
+    { nombre: "CSS", nivel: 85, dimension: "Style & Layout" },
+    { nombre: "JavaScript", nivel: 80, dimension: "Scripting Logic" },
+    { nombre: "React", nivel: 75, dimension: "UI Components" },
+    { nombre: "Node.js", nivel: 70, dimension: "Back-end Power" },
   ];
 
   // Configuración de las ondas
@@ -42,6 +42,8 @@ const Habilidades = () => {
     const allPolylines = document.querySelectorAll('.wavelines polyline');
     allPolylines.forEach(line => {
       line.setAttribute('points', points);
+      // Ajustar grosor de línea a 1
+      line.style.strokeWidth = '1';
     });
   };
 
@@ -54,7 +56,7 @@ const Habilidades = () => {
     const handleScroll = (e) => {
       const velocity = e.deltaY || 0;
       currentDrift += velocity * 0.0002;
-      currentAmplitude = Math.abs(velocity) * 0.0005;
+      currentAmplitude = Math.abs(velocity) * 0.0015;
       
       setDrift(currentDrift);
       setAmplitude(currentAmplitude);
@@ -78,13 +80,14 @@ const Habilidades = () => {
       const mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
       const mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
       
-      currentDrift += mouseX * 0.1;
-      currentAmplitude = Math.abs(mouseY) * 2;
+      // Aumentar la intensidad del desplazamiento al pasar el mouse
+      currentDrift += mouseX * 0.1 * 7.5;
+      currentAmplitude = Math.abs(mouseY) * 2 * 7.5;
       
       updateWaves(currentAmplitude, currentDrift);
     };
 
-    const container = document.querySelector('.cuerdas-container');
+    const container = svgRef.current?.closest('.cuerdas-container');
     if (container) {
       container.addEventListener('wheel', handleScroll, { passive: true });
       container.addEventListener('mousemove', handleMouseMove);
@@ -137,11 +140,11 @@ const Habilidades = () => {
 
         .cuerdas-container {
           position: relative;
-          margin: 2rem 0;
-          padding: 2rem;
-          border: 1px solid rgba(0, 0, 0, 0.2);
-          border-radius: 10px;
+          margin: 1.5rem 0;
+          padding: 1rem;
           background: transparent;
+          border: none;
+          border-radius: 12px;
           backdrop-filter: none;
           box-shadow: none;
         }
@@ -151,8 +154,6 @@ const Habilidades = () => {
           top: -12px;
           left: 50%;
           transform: translateX(-50%);
-          background: transparent;
-          backdrop-filter: blur(10px);
           padding: 0.5rem 1.5rem;
           font-size: 0.9rem;
           font-weight: 500;
@@ -160,7 +161,8 @@ const Habilidades = () => {
           text-transform: uppercase;
           color: #333333;
           border-radius: 20px;
-          border: 1px solid rgba(0, 0, 0, 0.2);
+          background: transparent;
+          border: none;
           box-shadow: none;
         }
 
@@ -185,14 +187,16 @@ const Habilidades = () => {
           fill: none;
           stroke: #60a5fa;
           stroke-linecap: round;
-          stroke-width: 1.5;
+          stroke-width: 0.5;
           transform-box: fill-box;
           transform-origin: center;
           transition: stroke-width 0.3s ease;
+          filter: drop-shadow(0 0 4px #60a5fa);
         }
 
         .wavelines:hover polyline {
-          stroke-width: 2;
+          stroke-width: 1.5;
+          filter: drop-shadow(0 0 8px #60a5fa);
         }
 
         .main-content {
@@ -391,6 +395,36 @@ const Habilidades = () => {
             font-size: 2rem;
           }
         }
+
+        .orbita-container {
+          position: relative;
+          width: 40px;
+          height: 40px;
+          border: 1px dashed rgba(96, 165, 250, 0.5);
+          border-radius: 50%;
+          animation: orbitar 15s linear infinite;
+        }
+
+        .planeta {
+          position: absolute;
+          width: 8px;
+          height: 8px;
+          background-color: #60a5fa;
+          border-radius: 50%;
+          top: 50%;
+          left: 50%;
+          transform-origin: -20px center;
+          animation: orbitar 10s linear infinite;
+        }
+
+        @keyframes orbitar {
+          from {
+            transform: rotate(0deg) translateX(20px);
+          }
+          to {
+            transform: rotate(360deg) translateX(20px);
+          }
+        }
       `}</style>
 
       <div className="container">
@@ -420,7 +454,7 @@ const Habilidades = () => {
           </div>
 
           <p style={{ textAlign: 'center', color: '#a0a0a0', fontSize: '0.9rem', marginTop: '1rem' }}>
-            Mueve el mouse o usa el scroll para perturbar las cuerdas cósmicas
+            Mueve el mouse para perturbar las cuerdas 
           </p>
         </div>
 
@@ -429,13 +463,9 @@ const Habilidades = () => {
             <div key={index} className="habilidad-item">
               <span className="habilidad-nombre">{habilidad.nombre}</span>
               <span className="dimension-label">Dim. {habilidad.dimension}</span>
-              <div className="barra-contenedor">
-                <div 
-                  className="barra-progreso" 
-                  style={{ width: `${habilidad.nivel}%` }}
-                />
+              <div className="orbita-container">
+                <div className="planeta" style={{ animationDuration: `${100 - habilidad.nivel + 5}s` }}></div>
               </div>
-              <span className="nivel-texto">{habilidad.nivel}%</span>
               
               {/* Mini cuerdas al lado de cada habilidad */}
               <svg className="habilidad-waveline wavelines" viewBox="0 0 100 30" style={{ background: 'transparent' }}>
@@ -470,12 +500,12 @@ const Habilidades = () => {
         </div>
 
         <div className="teoria-info">
-          <h3>Teoría de Cuerdas Digitales</h3>
+          <h3>Soy Samuel Mejía</h3>
           <p>
-            Al igual que las cuerdas fundamentales vibran en dimensiones ocultas para crear la realidad física, 
-            cada tecnología resuena en frecuencias específicas del espacio-tiempo digital. La interacción entre 
-            estas vibraciones genera el tejido de la experiencia de usuario moderna.
-          </p>
+  Soy Samuel Mejía<br />
+  Transformo ideas en interfaces vivas, donde cada clic cuenta una historia..<br />
+No construyo páginas… construyo experiencias.
+</p>
         </div>
       </div>
     </div>
