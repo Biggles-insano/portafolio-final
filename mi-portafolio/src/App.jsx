@@ -14,6 +14,13 @@ export default function App() {
   const initialMarkerRef = useRef(null);
   const secondMarkerRef = useRef(null);
   const thirdMarkerRef = useRef(null);
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.2;
+    }
+  }, []);
 
   useEffect(() => {
     let flipCtx;
@@ -56,6 +63,10 @@ export default function App() {
 
   return (
     <>
+      <audio ref={audioRef} autoPlay loop>
+        <source src="/musica.mp3" type="audio/mpeg" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
       <img
         ref={boxRef}
         src="/yct20hubfk061.png"

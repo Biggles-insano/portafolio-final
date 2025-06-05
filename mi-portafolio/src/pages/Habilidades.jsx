@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// Importa el efecto scramble-text si está en un archivo externo, por ejemplo:
-// import { setupScrambleTextEffect } from '../utils/scrambleText';
-
 const Habilidades = () => {
   const svgRef = useRef(null);
   const [drift, setDrift] = useState(0);
@@ -15,18 +12,9 @@ const Habilidades = () => {
     { nombre: "React", nivel: 75, dimension: "UI Components" },
     { nombre: "Node.js", nivel: 70, dimension: "Back-end Power" },
   ];
+  
   // --- Scramble-text effect ---
   useEffect(() => {
-    // Si tienes un hook o función global, úsala aquí.
-    // Si el script scramble-text está en window, colócalo aquí:
-    // Por ejemplo, si tienes:
-    // window.setupScrambleTextEffect?.();
-    // O si tienes una función importada:
-    // setupScrambleTextEffect();
-
-    // Si no hay función, aquí va un efecto básico:
-    // (esto solo activa el scramble en hover para .scramble-text)
-    // Puedes reemplazar esto con tu propia función si la tienes.
     function scramble(element, originalText, chars = "!<>-_\\/[]{}—=+*^?#________") {
       let frame = 0;
       let scrambleInterval;
@@ -52,7 +40,8 @@ const Habilidades = () => {
       return () => clearTimeout(scrambleInterval);
     }
 
-    const nodes = document.querySelectorAll('.scramble-text');
+    // Solo aplicar a elementos con scramble-text que NO tengan la clase no-scramble-text
+    const nodes = document.querySelectorAll('.scramble-text:not(.no-scramble-text)');
     nodes.forEach(node => {
       const original = node.textContent;
       node.onmouseenter = () => scramble(node, original);
@@ -163,6 +152,12 @@ const Habilidades = () => {
         }
         .scramble-text:hover {
           color: #60a5fa;
+        }
+        .no-scramble-text {
+          color: #333;
+          font-size: 1rem;
+          font-weight: 400;
+          cursor: default;
         }
         .habilidades-section {
           padding: 4rem 0;
@@ -563,8 +558,8 @@ const Habilidades = () => {
         </div>
 
         <div className="teoria-info">
-          <h3><span className="scramble-text">Soy Samuel Mejía</span></h3>
-          <p className="scramble-text" style={{ whiteSpace: 'pre-line' }}>
+          <h3>Soy Samuel Mejía</h3>
+          <p className="no-scramble-text" style={{ whiteSpace: 'pre-line' }}>
             Soy Samuel Mejía
             {'\n'}Transformo ideas en interfaces vivas, donde cada clic cuenta una historia..
             {'\n'}No construyo páginas… construyo experiencias.

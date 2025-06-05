@@ -45,8 +45,12 @@ const Landing = () => {
     // Scramble text effect (simplified)
     const scrambleElements = [
       { selector: ".nombre", text: "Samuel Mejía" },
-      { selector: ".rol", text: "Front-end Developer" },
-      { selector: ".mensaje", text: "no se que poner aquí" }
+      { selector: ".rol", text: "Fullstack Developer" },
+      { selector: ".mensaje3", text: "Cada componente tiene un propósito," },
+      { selector: ".mensaje4", text: "Más allá del diseño, creo experiencias envolventes." },
+      { selector: ".mensaje5", text: "Código que respira creatividad, estructuras que funcionan con armonía." },
+      { selector: ".mensaje6", text: "Del boceto al despliegue, cuido cada línea como una obra de arte." },
+      { selector: ".mensaje7", text: "En cada proyecto, dejo una parte de mí." }
     ]
 
     const scrambleText = (element, targetText) => {
@@ -69,7 +73,7 @@ const Landing = () => {
           clearInterval(interval)
         }
         
-        iteration += 1 / 3
+        iteration += 1
       }, 30)
     }
 
@@ -83,6 +87,7 @@ const Landing = () => {
 
       el?.addEventListener("pointerenter", applyScramble)
       el?.addEventListener("focus", applyScramble)
+      applyScramble(); // <- nueva línea para aplicar inmediatamente el efecto
     })
 
     return () => {
@@ -280,13 +285,16 @@ const Landing = () => {
         
         <div className="landing-texto">
           <h1 className="nombre">Samuel Mejía</h1>
-          <p className="rol">Front-end Developer</p>
-          <p className="mensaje">no se que poner aquí</p>
-          <a href="#Proyectos">Ver Proyectos</a>
+          <p className="rol">Fullstack Developer</p>
+          <p className="mensaje mensaje3">Cada componente tiene un propósito,</p>
+          <p className="mensaje mensaje4">Más allá del diseño, creo experiencias envolventes.</p>
+          <p className="mensaje mensaje5">Código respira creatividad,.</p>
+          <p className="mensaje mensaje6">Del boceto al despliegue, cuido cada línea como una obra de arte.</p>
         </div>
 
         <style jsx>{`
           .landing {
+            font-family: 'Orbitron', sans-serif;
             position: relative;
             min-height: 100vh;
             display: flex;
@@ -312,7 +320,7 @@ const Landing = () => {
             font-size: 3.5rem;
             font-weight: 700;
             margin: 0 0 1rem 0;
-            background: linear-gradient(45deg, #fff, #ccc);
+            background: linear-gradient(45deg, #ffcc00, #ff3300);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
