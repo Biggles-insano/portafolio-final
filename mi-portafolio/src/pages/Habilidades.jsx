@@ -563,6 +563,7 @@ const Habilidades = () => {
             Soy Samuel Mejía
             {'\n'}Transformo ideas en interfaces vivas, donde cada clic cuenta una historia..
             {'\n'}No construyo páginas… construyo experiencias.
+            {'\n'}Mi contacto: sam.mejiahz@gmail.com
           </p>
         </div>
         <div style={{ textAlign: 'center', marginTop: '2rem' }}>
