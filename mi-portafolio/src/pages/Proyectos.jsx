@@ -7,27 +7,27 @@ export default function Proyectos() {
   const planets = [
     {
       id: 'mercury',
-      name: 'Proyecto Mercury',
+      name: 'Api de incidentes',
       image: '/mercury.png',
-      description: 'Descripción del proyecto Mercury aquí',
-      github: 'https://github.com/tu-usuario/proyecto-mercury',
-      tech: 'React, Node.js, MongoDB'
+      description: 'Aplicación web para gestionar incidentes de soporte técnico, permitiendo crear, consultar, actualizar y eliminar incidentes. Utiliza una API RESTful conectada a MongoDB, todo dentro de contenedores Docker.',
+      github: 'https://github.com/Biggles-insano/api',
+      tech: 'Express.js, Node.js, MongoDB, Mongoose, Docker'
     },
     {
       id: 'venus',
-      name: 'Proyecto Venus',
+      name: 'by VíctorMejía',
       image: '/venus.png',
-      description: 'Descripción del proyecto Venus aquí',
-      github: 'https://github.com/tu-usuario/proyecto-venus',
-      tech: 'Vue.js, Express, PostgreSQL'
+      description: 'E-commerce en React con carrito de compras, visualización de productos y descuentos. Utiliza useContext para el manejo del carrito y useMemo para optimizar el cálculo del total. Incluye recomendaciones basadas en el historial de navegación y pruebas unitarias con Vitest.',
+      github: 'https://github.com/Biggles-insano/byvictormejia',
+      tech: 'React, StoryBook, Vite'
     },
     {
       id: 'earth',
-      name: 'Proyecto Earth',
+      name: 'Cronómetro',
       image: '/earth.png',
-      description: 'Descripción del proyecto Earth aquí',
-      github: 'https://github.com/tu-usuario/proyecto-earth',
-      tech: 'Angular, Django, MySQL'
+      description: 'Aplicación de cronómetro interactiva que permite medir el tiempo en intervalos con funciones de inicio, pausa y reinicio.',
+      github: 'https://github.com/Biggles-insano/cronometro',
+      tech: 'Node.js, React, Vite'
     },
     {
       id: 'sun',
