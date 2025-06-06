@@ -54,7 +54,7 @@ export default function Proyectos() {
         {/* Título */}
         <div className="projects-title">
           <h1>Mis Proyectos</h1>
-          <p>Explora mi sistema solar de proyectos</p>
+          <p>Explora mis proyectos</p>
         </div>
 
         {/* Planetas en línea */}
